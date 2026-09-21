@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
-# SPDX-FileCopyrightText: 2026 The updater-zig Authors
+# SPDX-FileCopyrightText: 2026 The plugin-template Authors
 
-.PHONY: build test e2e lint coverage release build-all-platforms clean
+.PHONY: build test lint coverage release build-all-platforms clean
 
-PLUGIN_NAME ?= updater-zig
+PLUGIN_NAME ?= plugin
 DIST_DIR ?= dist
 
 build:
@@ -12,9 +12,6 @@ build:
 
 test:
 	go test -v ./...
-
-e2e:
-	go test -tags e2e -v ./cmd/plugin/...
 
 lint:
 	golangci-lint run
