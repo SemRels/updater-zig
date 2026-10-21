@@ -66,8 +66,8 @@ Running the plugin with `SEMREL_VERSION=v1.3.0` rewrites only the top-level vers
 Unit tests cover `updateContent`'s brace-depth tracking directly. An additional end-to-end suite (build-tag `e2e`) compiles the real `semrel-plugin-updater-zig` binary and runs it as a subprocess against fixture `build.zig.zon` files, exactly the way semrel core invokes plugins — asserting the on-disk file, stdout, dry-run behavior, and exit codes:
 
 ```bash
-make test   # unit tests
-make e2e    # end-to-end: builds the binary, runs it as a real subprocess
+task test   # unit tests
+task e2e    # end-to-end: builds the binary, runs it as a real subprocess
 ```
 
 ## Installation
