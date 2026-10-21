@@ -1,6 +1,6 @@
 # Code of Conduct
 
-updater-zig is committed to providing a welcoming and harassment-free community.
+`updater-zig` is committed to providing a welcoming and harassment-free community.
 
 ## Our Pledge
 
