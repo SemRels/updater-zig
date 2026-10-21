@@ -102,17 +102,19 @@ cosign verify ghcr.io/semrels/updater-zig:latest \
 
 ```yaml
 plugins:
-  - name: updater-zig
-    path: ~/.semrel/plugins/semrel-plugin-updater-zig
-    env:
-      SEMREL_PLUGIN_FILE: "build.zig.zon"
+  - uses: "@semrel/updater-zig"
+    phase: pre-tag
+    args:
+      file: "build.zig.zon"
 ```
 
-## `SEMREL_PLUGIN_*` variables
+## Options
 
-| Name | Required | Description | Default |
-| --- | --- | --- | --- |
-| `SEMREL_PLUGIN_FILE` | Optional | Path to the `build.zig.zon` manifest to update. | build.zig.zon |
+Every option can be set as an entry under `args` in `.semrel.yaml`. semrel passes each entry to the plugin as the environment variable shown in the table, so you can also set that variable directly (for example in your CI environment) instead of using `args`.
+
+| Argument | Environment variable | Required | Description | Default |
+| --- | --- | --- | --- | --- |
+| `file` | `SEMREL_PLUGIN_FILE` | Optional | Path to the `build.zig.zon` manifest to update. | build.zig.zon |
 
 ## `SEMREL_*` release context used
 
