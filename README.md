@@ -1,6 +1,10 @@
 # updater-zig
 
 [![Latest Release](https://img.shields.io/github/v/release/SemRels/updater-zig?label=version&color=blue)](https://github.com/SemRels/updater-zig/releases/latest)
+[![CI](https://github.com/SemRels/updater-zig/actions/workflows/ci.yml/badge.svg)](https://github.com/SemRels/updater-zig/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/SemRels/updater-zig)](LICENSE)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/SemRels/updater-zig/badge)](https://scorecard.dev/viewer/?uri=github.com/SemRels/updater-zig)
+[![REUSE status](https://api.reuse.software/badge/github.com/SemRels/updater-zig)](https://api.reuse.software/info/github.com/SemRels/updater-zig)
 
 Updates the package version in `build.zig.zon`, the manifest file for [Zig](https://ziglang.org)'s build system and package manager.
 
@@ -66,8 +70,8 @@ Running the plugin with `SEMREL_VERSION=v1.3.0` rewrites only the top-level vers
 Unit tests cover `updateContent`'s brace-depth tracking directly. An additional end-to-end suite (build-tag `e2e`) compiles the real `semrel-plugin-updater-zig` binary and runs it as a subprocess against fixture `build.zig.zon` files, exactly the way semrel core invokes plugins — asserting the on-disk file, stdout, dry-run behavior, and exit codes:
 
 ```bash
-make test   # unit tests
-make e2e    # end-to-end: builds the binary, runs it as a real subprocess
+task test   # unit tests
+task e2e    # end-to-end: builds the binary, runs it as a real subprocess
 ```
 
 ## Installation
@@ -90,7 +94,7 @@ Images are signed with [cosign](https://github.com/sigstore/cosign) and include 
 
 ```bash
 cosign verify ghcr.io/semrels/updater-zig:latest \
-  --certificate-identity-regexp 'https://github.com/SemRels/updater-zig/.github/workflows/release.yml.*' \
+  --certificate-identity-regexp 'https://github.com/SemRels/updater-zig/.github/workflows/container.yml.*' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com
 ```
 
@@ -98,17 +102,19 @@ cosign verify ghcr.io/semrels/updater-zig:latest \
 
 ```yaml
 plugins:
-  - name: updater-zig
-    path: ~/.semrel/plugins/semrel-plugin-updater-zig
-    env:
-      SEMREL_PLUGIN_FILE: "build.zig.zon"
+  - uses: "@semrel/updater-zig"
+    phase: pre-tag
+    args:
+      file: "build.zig.zon"
 ```
 
-## `SEMREL_PLUGIN_*` variables
+## Options
 
-| Name | Required | Description | Default |
-| --- | --- | --- | --- |
-| `SEMREL_PLUGIN_FILE` | Optional | Path to the `build.zig.zon` manifest to update. | build.zig.zon |
+Every option can be set as an entry under `args` in `.semrel.yaml`. semrel passes each entry to the plugin as the environment variable shown in the table, so you can also set that variable directly (for example in your CI environment) instead of using `args`.
+
+| Argument | Environment variable | Required | Description | Default |
+| --- | --- | --- | --- | --- |
+| `file` | `SEMREL_PLUGIN_FILE` | Optional | Path to the `build.zig.zon` manifest to update. | build.zig.zon |
 
 ## `SEMREL_*` release context used
 
